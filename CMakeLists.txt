@@ -1,16 +1,6 @@
 project(libsuspend)
 cmake_minimum_required(VERSION 2.8.9)
 
-set(CMAKE_C_FLAGS "-Wall")
-set(CMAKE_CXX_FLAGS "-Wall")
-set(CMAKE_C_FLAGS_DEBUG "-O0 -ggdb -g")
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb -g")
-set(CMAKE_C_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_C_FLAGS "-Wall -Werror -Wextra")
-
-find_package(Threads REQUIRED)
-
 add_library(suspend SHARED
   libsuspend.c
   sysfs.c
@@ -18,5 +8,8 @@ add_library(suspend SHARED
   earlysuspend.c
   legacy.c
   mocksuspend.c)
+set_target_properties(suspend PROPERTIES VERSION 1.0.0 SOVERSION 1)
+target_link_libraries(suspend -lpthread)
 
 install(TARGETS suspend  LIBRARY DESTINATION lib)
+install(FILES libsuspend.h DESTINATION include)
